@@ -18,7 +18,7 @@ RUN apk --no-cache --no-progress upgrade && \
     echo '    "incomplete-dir-enabled": false,' >>$file && \
     echo '    "download-limit": 100,' >>$file && \
     echo '    "download-limit-enabled": 0,' >>$file && \
-    echo '    "encryption": 1,' >>$file && \
+    echo '    "encryption": 2,' >>$file && \
     echo '    "max-peers-global": 200,' >>$file && \
     echo '    "peer-port": 51312,' >>$file && \
     echo '    "peer-socket-tos": "lowcost",' >>$file && \
