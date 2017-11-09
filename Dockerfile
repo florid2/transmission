@@ -12,15 +12,15 @@ RUN apk --no-cache --no-progress upgrade && \
     [[ -d $dir/incomplete ]] || mkdir -p $dir/incomplete && \
     [[ -d $dir/info/blocklists ]] || mkdir -p $dir/info/blocklists && \
     /bin/echo -e '{\n    "blocklist-enabled": 0,' >$file && \
-    echo '    "dht-enabled": true,' >>$file && \
+    echo '    "dht-enabled": false,' >>$file && \
     echo '    "download-dir": "'"$dir"'/downloads",' >>$file && \
     echo '    "incomplete-dir": "'"$dir"'/incomplete",' >>$file && \
-    echo '    "incomplete-dir-enabled": true,' >>$file && \
+    echo '    "incomplete-dir-enabled": false,' >>$file && \
     echo '    "download-limit": 100,' >>$file && \
     echo '    "download-limit-enabled": 0,' >>$file && \
     echo '    "encryption": 1,' >>$file && \
     echo '    "max-peers-global": 200,' >>$file && \
-    echo '    "peer-port": 51413,' >>$file && \
+    echo '    "peer-port": 51312,' >>$file && \
     echo '    "peer-socket-tos": "lowcost",' >>$file && \
     echo '    "pex-enabled": 1,' >>$file && \
     echo '    "port-forwarding-enabled": 0,' >>$file && \
@@ -38,7 +38,7 @@ RUN apk --no-cache --no-progress upgrade && \
 
 COPY transmission.sh /usr/bin/
 
-EXPOSE 9091 51413/tcp 51413/udp
+EXPOSE 9091 51312/tcp 51312/udp
 
 HEALTHCHECK --interval=60s --timeout=15s \
             CMD curl -LSs http://localhost:9091/ >/dev/null
