@@ -22,7 +22,7 @@ RUN apk --no-cache --no-progress upgrade && \
     echo '    "max-peers-global": 200,' >>$file && \
     echo '    "peer-port": 51312,' >>$file && \
     echo '    "peer-socket-tos": "lowcost",' >>$file && \
-    echo '    "pex-enabled": 1,' >>$file && \
+    echo '    "pex-enabled": false,' >>$file && \
     echo '    "port-forwarding-enabled": 0,' >>$file && \
     echo '    "queue-stalled-enabled": true,' >>$file && \
     echo '    "ratio-limit-enabled": true,' >>$file && \
