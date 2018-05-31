@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER David Personette <dperson@gmail.com>
+MAINTAINER florid2
 
 # Install transmission
 RUN apk --no-cache --no-progress upgrade && \
