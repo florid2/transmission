@@ -3,7 +3,8 @@ MAINTAINER florid2
 
 # Install transmission
 RUN apk --no-cache --no-progress upgrade && \
-    apk --no-cache --no-progress add bash curl shadow sed transmission-daemon&&\
+    apk --no-cache --no-progress add bash curl shadow sed tini \
+                transmission-daemon && \
     dir="/var/lib/transmission-daemon" && \
     file="$dir/info/settings.json" && \
     mv /var/lib/transmission $dir && \
@@ -41,8 +42,8 @@ COPY transmission.sh /usr/bin/
 EXPOSE 9091 51312/tcp 51312/udp
 
 HEALTHCHECK --interval=60s --timeout=15s \
-            CMD curl -LSs http://localhost:9091/ >/dev/null
+            CMD netstat -lntp | grep -q '0\.0\.0\.0:9091'
 
 VOLUME ["/var/lib/transmission-daemon"]
 
-ENTRYPOINT ["transmission.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/usr/bin/transmission.sh"]
