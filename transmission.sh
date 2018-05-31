@@ -24,12 +24,11 @@ dir="/var/lib/transmission-daemon"
 # Arguments:
 #   none)
 # Return: Help text
-usage() { local RC=${1:-0}
+usage() { local RC="${1:-0}"
     echo "Usage: ${0##*/} [-opt] [command]
 Options (fields in '[]' are optional, '<>' are required):
     -h          This help
     -n          No auth config; don't configure authentication at runtime
-
 The 'command' (if provided and valid) will be run instead of transmission
 " >&2
     exit $RC
@@ -48,9 +47,9 @@ shift $(( OPTIND - 1 ))
 [[ "${USERID:-""}" =~ ^[0-9]+$ ]] && usermod -u $USERID -o transmission
 [[ "${GROUPID:-""}" =~ ^[0-9]+$ ]]&& groupmod -g $GROUPID -o transmission
 for env in $(printenv | grep '^TR_'); do
-    name=$(cut -c4- <<< ${env%%=*} | tr '_A-Z' '-a-z')
+    name="$(cut -c4- <<< ${env%%=*} | tr '_A-Z' '-a-z')"
     val="\"${env##*=}\""
-    [[ "$val" =~ ^\"([0-9]+|false|true)\"$ ]] && val=$(sed 's|"||g' <<<$val)
+    [[ "$val" =~ ^\"([0-9]+|false|true)\"$ ]] && val="$(sed 's|"||g' <<< $val)"
     sed -i 's|\([0-9A-Za-z"]\)$|\1,|' $dir/info/settings.json
     if grep -q "\"$name\"" $dir/info/settings.json; then
         sed -i "/\"$name\"/s|:.*|: $val,|" $dir/info/settings.json
@@ -60,14 +59,16 @@ for env in $(printenv | grep '^TR_'); do
     sed -rzi 's/,([^,]*)$/\1/' $dir/info/settings.json
 done
 
-watchdir=$(awk -F'=' '/"watch-dir"/ {print $2}' $dir/info/settings.json |
-            sed 's/[,"]//g')
+watchdir="$(awk -F'=' '/"watch-dir"/ {print $2}' $dir/info/settings.json |
+            sed 's/[,"]//g')"
 [[ -d $dir/downloads ]] || mkdir -p $dir/downloads
 [[ -d $dir/incomplete ]] || mkdir -p $dir/incomplete
 [[ -d $dir/info/blocklists ]] || mkdir -p $dir/info/blocklists
 [[ $watchdir && ! -d $watchdir ]] && mkdir -p $watchdir
 
 chown -Rh transmission. $dir 2>&1 | grep -iv 'Read-only' || :
+# Ensure su is owned by root to avoid setgid issues when using user namespaces in daemon
+chown root:root /bin/su
 
 if [[ $# -ge 1 && -x $(which $1 2>&-) ]]; then
     exec "$@"
