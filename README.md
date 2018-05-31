@@ -9,7 +9,7 @@ a cross-platform back-end.
 
 ## Hosting a Transmission instance
 
-    sudo docker run -it --name transmission -p 9091:9091 -d dperson/transmission
+    sudo docker run -it --name transmission -p 9091:9091 -d florid2/transmission
 
 OR set local storage (see *Complex configuration* below):
 
