@@ -20,6 +20,23 @@ set -o nounset                              # Treat unset variables as an error
 
 dir="/var/lib/transmission-daemon"
 
+### timezone: Set the timezone for the container
+# Arguments:
+#   timezone) for example EST5EDT
+# Return: the correct zoneinfo file will be symlinked into place
+timezone() { local timezone="${1:-EST5EDT}"
+    [[ -e /usr/share/zoneinfo/$timezone ]] || {
+        echo "ERROR: invalid timezone specified: $timezone" >&2
+        return
+    }
+
+    if [[ -w /etc/timezone && $(cat /etc/timezone) != $timezone ]]; then
+        echo "$timezone" >/etc/timezone
+        ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
+        dpkg-reconfigure -f noninteractive tzdata >/dev/null 2>&1
+    fi
+}
+
 ### usage: Help
 # Arguments:
 #   none)
