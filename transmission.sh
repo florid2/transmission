@@ -46,15 +46,18 @@ usage() { local RC="${1:-0}"
 Options (fields in '[]' are optional, '<>' are required):
     -h          This help
     -n          No auth config; don't configure authentication at runtime
+    -t \"\"       Configure timezone
+                possible arg: \"[timezone]\" - zoneinfo timezone for container
 The 'command' (if provided and valid) will be run instead of transmission
 " >&2
     exit $RC
 }
 
-while getopts ":hn" opt; do
+while getopts ":hnt:" opt; do
     case "$opt" in
         h) usage ;;
         n) export NOAUTH=true ;;
+        t) timezone $OPTARG ;;
         "?") echo "Unknown option: -$OPTARG"; usage 1 ;;
         ":") echo "No argument value for option: -$OPTARG"; usage 2 ;;
     esac
@@ -63,6 +66,7 @@ shift $(( OPTIND - 1 ))
 
 [[ "${USERID:-""}" =~ ^[0-9]+$ ]] && usermod -u $USERID -o transmission
 [[ "${GROUPID:-""}" =~ ^[0-9]+$ ]]&& groupmod -g $GROUPID -o transmission
+[[ "${TZ:-""}" ]] && timezone $TZ
 for env in $(printenv | grep '^TR_'); do
     name="$(cut -c4- <<< ${env%%=*} | tr '_A-Z' '-a-z')"
     val="\"${env##*=}\""
