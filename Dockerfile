@@ -3,7 +3,7 @@ MAINTAINER florid2
 
 # Install transmission
 RUN apk --no-cache --no-progress upgrade && \
-    apk --no-cache --no-progress add bash curl ca-certificates shadow sed tini \
+    apk --no-cache --no-progress add bash curl shadow sed tini \
                 transmission-daemon tzdata && \
     dir="/var/lib/transmission-daemon" && \
     file="$dir/info/settings.json" && \
@@ -36,7 +36,6 @@ RUN apk --no-cache --no-progress upgrade && \
     /bin/echo -e '    "upload-limit-enabled": 0\n}' >>$file && \
     chown -Rh transmission. $dir && \
     rm -rf /tmp/*
-    update-ca-certificates
 
 COPY transmission.sh /usr/bin/
 
