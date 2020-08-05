@@ -109,7 +109,7 @@ else
     fi
     exec su -l transmission -s /bin/bash -c "exec transmission-daemon \
                 --allowed \\* --blocklist --config-dir $dir/info \
-                --foreground --log-info --no-portmap \
+                --foreground --log-info --TR_CURL_SSL_NO_VERIFY --TR_CURL_VERBOSE --no-portmap \
                 $([[ ${NOAUTH:-""} ]] && echo '--no-auth' || echo "--auth \
                 --username ${TRUSER:-admin} --password ${TRPASSWD:-admin}")"
 fi
