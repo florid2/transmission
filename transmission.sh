@@ -67,7 +67,7 @@ shift $(( OPTIND - 1 ))
 [[ "${USERID:-""}" =~ ^[0-9]+$ ]] && usermod -u $USERID -o transmission
 [[ "${GROUPID:-""}" =~ ^[0-9]+$ ]]&& groupmod -g $GROUPID -o transmission
 [[ "${TZ:-""}" ]] && timezone $TZ
-for env in $(printenv | grep '^TR_'); do
+for env in $(printenv | grep '^TVR_'); do
     name="$(cut -c4- <<< ${env%%=*} | tr '_A-Z' '-a-z')"
     val="\"${env##*=}\""
     [[ "$val" =~ ^\"([0-9]+|false|true)\"$ ]] && val="$(sed 's|"||g' <<< $val)"
