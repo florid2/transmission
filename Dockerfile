@@ -3,7 +3,7 @@ MAINTAINER florid2
 
 # Install transmission
 RUN apk --no-cache --no-progress upgrade && \
-    apk --no-cache --no-progress add bash curl ca-certificates shadow sed tini \
+    apk --no-cache --no-progress add bash curl shadow sed tini \
                 transmission-daemon tzdata && \
     dir="/var/lib/transmission-daemon" && \
     file="$dir/info/settings.json" && \
