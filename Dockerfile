@@ -46,4 +46,6 @@ HEALTHCHECK --interval=60s --timeout=15s \
 
 VOLUME ["/var/lib/transmission-daemon"]
 
+ENV TR_CURL_SSL_NO_VERIFY=1
+
 ENTRYPOINT ["/sbin/tini", "--", "/usr/bin/transmission.sh"]
