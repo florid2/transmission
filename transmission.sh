@@ -107,7 +107,7 @@ else
                     gzip -cd >$dir/info/blocklists/bt_level1
         chown transmission. $dir/info/blocklists/bt_level1
     fi
-    exec su -l transmission -s /bin/bash -c "exec transmission-daemon \
+    exec su -l env "CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt" transmission -s /bin/bash -c "exec transmission-daemon \
                 --allowed \\* --blocklist --config-dir $dir/info \
                 --foreground --log-info --no-portmap \
                 $([[ ${NOAUTH:-""} ]] && echo '--no-auth' || echo "--auth \
