@@ -37,7 +37,6 @@ RUN apk --no-cache --no-progress upgrade && \
     chown -Rh transmission. $dir && \
     rm -rf /tmp/*
     rm -rf /var/cache/apk/*
-    update-ca-certificates
 
 COPY transmission.sh /usr/bin/
 
