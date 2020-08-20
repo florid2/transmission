@@ -36,7 +36,6 @@ RUN apk --no-cache --no-progress upgrade && \
     /bin/echo -e '    "upload-limit-enabled": 0\n}' >>$file && \
     chown -Rh transmission. $dir && \
     rm -rf /tmp/*
-    rm -rf /var/cache/apk/*
 
 COPY transmission.sh /usr/bin/
 
